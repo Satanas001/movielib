@@ -23,13 +23,24 @@
                     
                         <div>
                             <p class="fw-bold">Réalisateur</p>
+                            
                                 <ul>
-                            {# {% for director in movies.moviePeople %}
-                            {% endfor %} #}
+                            {% for director in movie.moviePeople %}
+                                {% if "DIRECTOR" in director.roles %}
+                                    <li>{{ director.person.firstname ~ ' ' ~ director.person.lastname }}</li>
+                                {% endif %}
+                            {% endfor %}
                                 </ul>
                         </div>
                         <div>
                             <p class="fw-bold">Acteurs</p>
+                                <ul>
+                            {% for actor in movie.moviePeople %}
+                                {% if "ACTOR" in actor.roles %}
+                                    <li>{{ actor.person.firstname ~ ' ' ~ actor.person.lastname }}</li>
+                                {% endif %}
+                            {% endfor %}
+                                </ul>
                         </div>
                     </div>
                     
