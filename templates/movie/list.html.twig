@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ parent()}} - films
+{% endblock %}
+
+{% block body %}
+
+	<h1>Liste des films</h1>
+	<section class="row gx-1 gx-lg-2">
+		{% for movie in movies %}
+			<div class="col-4">
+				<div class="card shadow-sm mb-4 border-warning">
+					<div class="card-header text-bg-warning">{{ movie.title }}</div>
+					<div class="text-end me-2 fst-italic text-warning">{{ movie.genre.designation }}</div>
+					<div class="card-body pt-0">
+						<img src="{{ asset('images/movies/' ~ movie.poster) }}" alt="{{ movie.title}}" class="image-128 float-start me-2 img-thumbnail" alt=""/>
+					</div>
+				</div>
+			</div>
+		{% endfor %}
+	</section>
+{% endblock %}

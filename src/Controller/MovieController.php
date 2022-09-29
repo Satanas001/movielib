@@ -21,8 +21,12 @@ class MovieController extends AbstractController
     #[Route('', name: 'list')]
     public function list(): Response
     {
-        return $this->render('movie/index.html.twig', [
-            'controller_name' => 'MovieController',
+        $movies = $this->movieRepository->findBy([], [
+            'title' => 'asc'
+        ]);
+
+        return $this->render('movie/list.html.twig', [
+            'movies' => $movies
         ]);
     }
 
