@@ -32,6 +32,8 @@ class PersonController extends AbstractController
             return $this->redirectToRoute('person_add') ;
         }
 
-        return $this->render('person/form.html.twig', ['form' => $form->createView()]) ;
+        return $this->render('person/form.html.twig', [
+            'form' => $form->createView()
+            ]) ;
     }
 }

@@ -79,8 +79,8 @@ class MovieType extends AbstractType
                     'class' => 'form-select'
                 ],
                 'query_builder' => function (GenreRepository $gr) {
-                    return $gr->createQueryBuilder('c')
-                        ->orderBy('c.designation', 'ASC');
+                    return $gr->createQueryBuilder('g')
+                        ->orderBy('g.designation', 'ASC');
                 }
             ])
         ;

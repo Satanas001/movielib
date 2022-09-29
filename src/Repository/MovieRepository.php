@@ -39,6 +39,44 @@ class MovieRepository extends ServiceEntityRepository
         }
     }
 
+    public function averageDuration(): int
+    {
+        return $this->createQueryBuilder('m')
+            ->select('avg(m.duration)')
+            ->getQuery()
+            ->getSingleScalarResult();
+        ;
+    }
+
+    public function totalDuration(): int
+    {
+        return $this->createQueryBuilder('m')
+            ->select('sum(m.duration)')
+            ->getQuery()
+            ->getSingleScalarResult();
+        ;
+    }
+
+    public function earlier(): ?movie
+    {
+        return $this->createQueryBuilder('m')
+            ->orderBy('m.releaseAt', 'DESC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
+
+    public function older(): ?movie
+    {
+        return $this->createQueryBuilder('m')
+            ->orderBy('m.releaseAt', 'ASC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
+
 //    /**
 //     * @return Movie[] Returns an array of Movie objects
 //     */

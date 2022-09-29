@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ parent() }} - Statistiques
+{% endblock %}
+
+{% block body %}
+<section>
+    <h1 class="mb-5">Des stats !</h1>
+        <div class="mb-2">
+            <span class="fw-bold">Nombre de films :</span> {{movieCount}}
+        </div>
+        <div class="mb-2">
+            <span class="fw-bold">Nombre de personnes :</span> {{personCount}}
+        </div>
+        <div class="mb-2">
+            <span class="fw-bold">Durée moyenne :</span> {{averageDuration}} minutes
+        </div>
+        <div class="mb-2">
+            <span class="fw-bold">Durée totale :</span> {{totalDuration}} minutes
+        </div>
+        <div class="mb-2">
+            <span class="fw-bold">Le plus récent :</span> {{earlierMovie.title}}
+        </div>
+        <div class="mb-2">
+            <span class="fw-bold">Le plus ancien :</span> {{olderMovie.title}}
+        </div>
+</section>
+{% endblock %}
