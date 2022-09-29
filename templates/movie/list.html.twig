@@ -6,18 +6,34 @@
 
 {% block body %}
 
-	<h1>Liste des films</h1>
-	<section class="row gx-1 gx-lg-2">
+	<h1 class="mb-5">Des films...</h1>
+	<section class="row gx-2">
 		{% for movie in movies %}
-			<div class="col-4">
-				<div class="card shadow-sm mb-4 border-warning">
-					<div class="card-header text-bg-warning">{{ movie.title }}</div>
-					<div class="text-end me-2 fst-italic text-warning">{{ movie.genre.designation }}</div>
+			<div class="col-auto">
+				<div class="card shadow-sm mb-4">
+					<div class="card-header">{{ movie.title }}</div>
+					<div class="text-end me-2 my-2 fst-italic text-primary"><img src="{{ asset('images/' ~ movie.genre.icon) }}" class="image-24 me-1" alt="">{{ movie.genre.designation }}</div>
 					<div class="card-body pt-0">
-						<img src="{{ asset('images/movies/' ~ movie.poster) }}" alt="{{ movie.title}}" class="image-128 float-start me-2 img-thumbnail" alt=""/>
-					</div>
+						<img src="{{ asset('images/movies/' ~ movie.poster) }}" alt="{{ movie.title}}" class="image-256" alt="Affiche du film"/>
+                        <p><span class="fw-bold">Durée : </span>{{movie.duration}} min.</p>
+                        <p><span class="fw-bold">Date de sortie en France : </span>{{movie.releaseAt | date("d/m/Y")}}</p>
+					
+                    
+                        <div>
+                            <p class="fw-bold">Réalisateur</p>
+                                <ul>
+                            {# {% for director in movies.moviePeople %}
+                            {% endfor %} #}
+                                </ul>
+                        </div>
+                        <div>
+                            <p class="fw-bold">Acteurs</p>
+                        </div>
+                    </div>
+                    
 				</div>
 			</div>
+            
 		{% endfor %}
 	</section>
 {% endblock %}
