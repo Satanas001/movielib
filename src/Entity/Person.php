@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\PersonRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -22,6 +24,14 @@ class Person
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $birthDate = null;
+
+    #[ORM\OneToMany(mappedBy: 'person', targetEntity: MoviePerson::class)]
+    private Collection $moviePeople;
+
+    public function __construct()
+    {
+        $this->moviePeople = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -60,6 +70,36 @@ class Person
     public function setBirthDate(?\DateTimeInterface $birthDate): self
     {
         $this->birthDate = $birthDate;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, MoviePerson>
+     */
+    public function getMoviePeople(): Collection
+    {
+        return $this->moviePeople;
+    }
+
+    public function addMoviePerson(MoviePerson $moviePerson): self
+    {
+        if (!$this->moviePeople->contains($moviePerson)) {
+            $this->moviePeople->add($moviePerson);
+            $moviePerson->setPerson($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMoviePerson(MoviePerson $moviePerson): self
+    {
+        if ($this->moviePeople->removeElement($moviePerson)) {
+            // set the owning side to null (unless already changed)
+            if ($moviePerson->getPerson() === $this) {
+                $moviePerson->setPerson(null);
+            }
+        }
 
         return $this;
     }

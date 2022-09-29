@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\MovieRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -29,6 +31,14 @@ class Movie
     #[ORM\ManyToOne(inversedBy: 'movies')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Genre $genre = null;
+
+    #[ORM\OneToMany(mappedBy: 'movie', targetEntity: MoviePerson::class)]
+    private Collection $moviePeople;
+
+    public function __construct()
+    {
+        $this->moviePeople = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -91,6 +101,36 @@ class Movie
     public function setGenre(?Genre $genre): self
     {
         $this->genre = $genre;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, MoviePerson>
+     */
+    public function getMoviePeople(): Collection
+    {
+        return $this->moviePeople;
+    }
+
+    public function addMoviePerson(MoviePerson $moviePerson): self
+    {
+        if (!$this->moviePeople->contains($moviePerson)) {
+            $this->moviePeople->add($moviePerson);
+            $moviePerson->setMovie($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMoviePerson(MoviePerson $moviePerson): self
+    {
+        if ($this->moviePeople->removeElement($moviePerson)) {
+            // set the owning side to null (unless already changed)
+            if ($moviePerson->getMovie() === $this) {
+                $moviePerson->setMovie(null);
+            }
+        }
 
         return $this;
     }
