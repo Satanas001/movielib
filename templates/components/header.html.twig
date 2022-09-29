@@ -2,9 +2,9 @@
 	<a href="{{ path('main_index') }}" ><img src="{{ asset('images/bobine.png') }}" alt="Logo de LudoTek - Bobine de film" /> MovieLib</a>
     <nav>
         <ul>
-            <li><a href="">Liste des films</a></li>
+            <li><a href="{{ path('movie_list') }}">Liste des films</a></li>
             <li><a href="{{ path('person_add') }}">Ajouter une personne</a></li>
-            <li><a href="">Ajouter un film</a></li>
+            <li><a href="{{ path('movie_add') }}">Ajouter un film</a></li>
             <li><a href="">Statistiques</a></li>
         </ul>
     </nav>
