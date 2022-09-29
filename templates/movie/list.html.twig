@@ -14,7 +14,9 @@
 					<div class="card-header">{{ movie.title }}</div>
 					<div class="text-end me-2 my-2 fst-italic text-primary"><img src="{{ asset('images/' ~ movie.genre.icon) }}" class="image-24 me-1" alt="">{{ movie.genre.designation }}</div>
 					<div class="card-body pt-0">
-						<img src="{{ asset('images/movies/' ~ movie.poster) }}" alt="{{ movie.title}}" class="image-256" alt="Affiche du film"/>
+						<div class="text-center">
+                            <img src="{{ asset('images/movies/' ~ movie.poster) }}" alt="{{ movie.title}}" class="image-256" alt="Affiche du film"/>
+                        </div>
                         <p><span class="fw-bold">Durée : </span>{{movie.duration}} min.</p>
                         <p><span class="fw-bold">Date de sortie en France : </span>{{movie.releaseAt | date("d/m/Y")}}</p>
 					

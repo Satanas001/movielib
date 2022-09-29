@@ -8,6 +8,7 @@ use App\Repository\MovieRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[Route('/movie', name: 'movie_')]
@@ -31,7 +32,7 @@ class MovieController extends AbstractController
     }
 
     #[Route('/add', name: 'add')]
-    public function form(Request $request): Response
+    public function form(Request $request, SluggerInterface $slugger): Response
     {
         $movie = new Movie();
         $form = $this->createForm(MovieType::class, $movie) ;
@@ -39,12 +40,29 @@ class MovieController extends AbstractController
         $form->handleRequest($request) ;
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $posterFile  = $form->get('poster')->getData();
+
+            if ($posterFile) {
+                $originalFilename = pathinfo($posterFile->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename.$posterFile->guessExtension();
+                
+                $posterFile->move(
+                    $this->getParameter('posters_directory'),
+                    $newFilename
+                );
+                $movie->setPoster($newFilename);
+            }
+            
             $this->movieRepository->save($movie, true);
             $this->addFlash('success', '« '.$movie->getTitle().' » a été enregistré avec succès.') ;
 
             return $this->redirectToRoute('movie_list') ;
         }
 
-        return $this->render('movie/form.html.twig', ['form' => $form->createView()]) ;
+        return $this->render('movie/form.html.twig', [
+            'form' => $form->createView()
+        ]) ;
     }
 }
