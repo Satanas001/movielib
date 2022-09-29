@@ -2,11 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\PersonRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\PersonRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PersonRepository::class)]
 class Person
@@ -17,12 +19,15 @@ class Person
     private ?int $id = null;
 
     #[ORM\Column(length: 50)]
+    #[Assert\NotBlank(message: 'Merci de saisir un prénom')]
     private ?string $firstname = null;
 
     #[ORM\Column(length: 50)]
+    #[Assert\NotBlank(message: 'Merci de saisir un nom')]
     private ?string $lastname = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    #[Assert\NotBlank(message: 'Merci de saisir une date de naissance')]
     private ?\DateTimeInterface $birthDate = null;
 
     #[ORM\OneToMany(mappedBy: 'person', targetEntity: MoviePerson::class)]

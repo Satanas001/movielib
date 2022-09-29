@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: MovieRepository::class)]
 class Movie
@@ -17,19 +18,31 @@ class Movie
     private ?int $id = null;
 
     #[ORM\Column(length: 100)]
+    #[Assert\NotBlank(message: 'Merci de saisir un titre')]
+    #[Assert\Length(
+        max: 100,
+        maxMessage: 'Le titre ne doit pas excéder {{ limit }} caractères.'
+    )]
     private ?string $title = null;
 
     #[ORM\Column(length: 50)]
+    #[Assert\NotBlank(message: 'Il faut une affiche au film')]
     private ?string $poster = null;
 
     #[ORM\Column]
+    #[Assert\GreaterThanOrEqual(
+        value: 1,
+        message: 'La durée minimum est de 1 minute'
+    )]
     private ?int $duration = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[Assert\NotBlank(message: 'Il faut une date de sortie au film')]
     private ?\DateTimeInterface $releaseAt = null;
 
     #[ORM\ManyToOne(inversedBy: 'movies')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Assert\NotBlank(message: 'Merci de choisir un genre')]
     private ?Genre $genre = null;
 
     #[ORM\OneToMany(mappedBy: 'movie', targetEntity: MoviePerson::class)]
