@@ -21,6 +21,9 @@
     </head>
     <body>
         {% include 'components/header.html.twig' %}
+        
+        <main class="container">
+        
         {% for type, messages in app.flashes %}
             {% for message in messages %}
                 <div class="alert alert-{{type}}">
@@ -28,9 +31,11 @@
                 </div>
             {% endfor %}
         {% endfor %}
-        <main class="container">
 
-            {% block body %}{% endblock %}
+        {% block body %}
+        
+        {% endblock %}
+
         </main>
         {% include 'components/footer.html.twig' %}
     </body>
